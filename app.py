@@ -4,28 +4,278 @@ import plotly.express as px
 
 st.set_page_config(page_title="Trợ lý dinh dưỡng học đường", page_icon="🥗", layout="wide")
 
-# Nhận diện giao diện: xanh lá - xanh ngọc, nền sáng, thẻ bo góc.
+# Nhận diện giao diện: xanh lá - xanh ngọc hiện đại, chiều sâu tinh tế, thẻ bo góc mềm mại.
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
-html, body, [class*="css"] {font-family:'Be Vietnam Pro','Segoe UI',Arial,sans-serif;}
-.stApp{background:#f6f9f7;color:#20332b}
-.block-container{max-width:1440px;padding-top:1.5rem;padding-bottom:2rem}
-[data-testid="stSidebar"]{background:#eef6f0;border-right:1px solid #dcebe0}
-.hero{background:linear-gradient(115deg,#14543f,#197653 60%,#35a77d);padding:1.7rem 2rem;border-radius:22px;color:white;margin-bottom:1.3rem;box-shadow:0 10px 28px #14543f20}
-.hero h1{color:white!important;font-weight:800;font-size:clamp(1.6rem,3vw,2.3rem);margin:.2rem 0}
-.hero p{color:#e7f6ed;margin:0}
-.tag{display:inline-block;padding:.3rem .7rem;border:1px solid #ffffff55;background:#ffffff20;border-radius:99px;font-size:.78rem;font-weight:700}
-.section{font-size:1.35rem;font-weight:800;color:#14543f;margin:.4rem 0}
-.sub{color:#66766e;margin-bottom:1rem}
-.card{background:white;border:1px solid #e1ece4;border-radius:16px;padding:1rem 1.1rem;height:100%;box-shadow:0 3px 12px #19463009}
-.card h3{color:#14543f;font-size:1rem;margin:0 0 .4rem}
-.card p{color:#53665b;margin:0;font-size:.9rem}
-div[data-testid="stMetric"]{background:white;border:1px solid #e1ece4;padding:.9rem 1rem;border-radius:15px}
-div[data-testid="stMetricValue"]{color:#14543f;font-weight:800}
-.stButton>button,.stDownloadButton>button{border-radius:11px;font-weight:700;min-height:2.6rem}
-div[data-testid="stDataFrame"]{border:1px solid #e1ece4;border-radius:12px;overflow:hidden}
-.footer{text-align:center;color:#718078;font-size:.82rem;padding:1rem}
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+
+:root {
+    --primary: #14543f;
+    --primary-mid: #1b7a58;
+    --primary-light: #35a77d;
+    --accent-bg: #eef7f2;
+    --border-soft: #dcebe2;
+    --text-main: #1b2e26;
+    --text-muted: #5c7066;
+}
+
+html, body, [class*="css"] {
+    font-family: 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
+    color: var(--text-main);
+}
+
+/* Nền tổng thể có chiều sâu nhẹ */
+.stApp {
+    background: radial-gradient(circle at 10% 10%, #edf7f1 0%, #f7faf8 45%, #f3f8f5 100%);
+    color: var(--text-main);
+}
+
+.block-container {
+    max-width: 1380px;
+    padding-top: 1.8rem;
+    padding-bottom: 2.5rem;
+}
+
+/* Tùy biến Sidebar & Menu điều hướng */
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #eaf5ee 0%, #f3f9f5 100%);
+    border-right: 1px solid var(--border-soft);
+}
+[data-testid="stSidebar"] h2 {
+    color: var(--primary) !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em;
+}
+
+/* Biến Radio buttons thành dạng Navigation Pills hiện đại */
+[data-testid="stSidebar"] div[role="radiogroup"] > label {
+    background: transparent;
+    padding: 0.65rem 0.9rem;
+    border-radius: 12px;
+    margin-bottom: 0.3rem;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+[data-testid="stSidebar"] div[role="radiogroup"] > label:hover {
+    background: rgba(255, 255, 255, 0.75);
+    border-color: var(--border-soft);
+    transform: translateX(3px);
+}
+[data-testid="stSidebar"] div[role="radiogroup"] > label[data-checked="true"],
+[data-testid="stSidebar"] div[role="radiogroup"] > label:has(input:checked) {
+    background: #ffffff;
+    border-color: #cbe3d5;
+    box-shadow: 0 4px 12px rgba(20, 84, 63, 0.08);
+    font-weight: 700;
+}
+[data-testid="stSidebar"] div[role="radiogroup"] > label > div:first-child {
+    display: none; /* Ẩn chấm tròn radio mặc định */
+}
+
+/* Hero Banner sang trọng */
+.hero {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(125deg, #0f4735 0%, #197653 55%, #2ea378 100%);
+    padding: 2.1rem 2.4rem;
+    border-radius: 24px;
+    color: white;
+    margin-bottom: 1.6rem;
+    box-shadow: 0 14px 34px rgba(20, 84, 63, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.hero::before {
+    content: "";
+    position: absolute;
+    top: -40%;
+    right: -10%;
+    width: 340px;
+    height: 340px;
+    background: radial-gradient(circle, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+.hero h1 {
+    color: white !important;
+    font-weight: 800;
+    font-size: clamp(1.7rem, 3vw, 2.35rem);
+    margin: 0.45rem 0 0.35rem 0;
+    letter-spacing: -0.02em;
+}
+.hero p {
+    color: #e6f6ed;
+    margin: 0;
+    font-size: 1.02rem;
+    opacity: 0.95;
+}
+.tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.32rem 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(6px);
+    border-radius: 99px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+/* Tiêu đề phân mục */
+.section {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 0.3rem 0 0.15rem 0;
+    letter-spacing: -0.015em;
+}
+.sub {
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+    font-size: 0.96rem;
+}
+
+/* Thẻ tính năng (Cards) có hiệu ứng hover */
+.card {
+    background: #ffffff;
+    border: 1px solid var(--border-soft);
+    border-radius: 18px;
+    padding: 1.25rem 1.35rem;
+    height: 100%;
+    box-shadow: 0 4px 16px rgba(20, 84, 63, 0.04);
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 26px rgba(20, 84, 63, 0.09);
+    border-color: #b7dcc6;
+}
+.card h3 {
+    color: var(--primary);
+    font-size: 1.06rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+}
+.card p {
+    color: var(--text-muted);
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.55;
+}
+
+/* Thẻ chỉ số (Metrics) */
+div[data-testid="stMetric"] {
+    background: #ffffff;
+    border: 1px solid var(--border-soft);
+    border-left: 4px solid var(--primary-light);
+    padding: 1rem 1.2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 14px rgba(20, 84, 63, 0.04);
+    transition: transform 0.2s ease;
+}
+div[data-testid="stMetric"]:hover {
+    transform: translateY(-2px);
+}
+div[data-testid="stMetricLabel"] {
+    color: var(--text-muted) !important;
+    font-weight: 600 !important;
+    font-size: 0.88rem !important;
+}
+div[data-testid="stMetricValue"] {
+    color: var(--primary) !important;
+    font-weight: 800 !important;
+    font-size: 1.65rem !important;
+}
+
+/* Container có viền */
+div[data-testid="stVerticalBlockBorderWrapper"] {
+    background: #ffffff;
+    border: 1px solid var(--border-soft) !important;
+    border-radius: 18px !important;
+    box-shadow: 0 4px 18px rgba(20, 84, 63, 0.04);
+    padding: 0.4rem;
+}
+
+/* Nút bấm hiện đại */
+.stButton > button, .stDownloadButton > button {
+    border-radius: 12px;
+    font-weight: 700;
+    min-height: 2.8rem;
+    transition: all 0.2s ease;
+    border: 1px solid var(--border-soft);
+}
+.stButton > button[kind="primary"] {
+    background: linear-gradient(135deg, #14543f 0%, #1f8760 100%);
+    border: none;
+    color: white;
+    box-shadow: 0 6px 16px rgba(25, 118, 83, 0.25);
+}
+.stButton > button[kind="primary"]:hover {
+    box-shadow: 0 8px 22px rgba(25, 118, 83, 0.35);
+    transform: translateY(-1px);
+}
+.stDownloadButton > button {
+    background: #eef7f2;
+    color: var(--primary);
+    border: 1px solid #bfe0cd;
+}
+.stDownloadButton > button:hover {
+    background: #dff0e6;
+    border-color: var(--primary-light);
+}
+
+/* Khu vực tải file */
+[data-testid="stFileUploader"] section {
+    background: #f8fcfa;
+    border: 2px dashed #b9dcc7;
+    border-radius: 14px;
+    padding: 1.2rem;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+[data-testid="stFileUploader"] section:hover {
+    border-color: var(--primary-light);
+    background: #f1f9f4;
+}
+
+/* Tabs thanh lịch */
+button[data-baseweb="tab"] {
+    font-weight: 600 !important;
+    border-radius: 10px 10px 0 0 !important;
+    padding: 0.6rem 1.1rem !important;
+}
+button[data-baseweb="tab"][aria-selected="true"] {
+    color: var(--primary) !important;
+    font-weight: 800 !important;
+}
+
+/* Bảng dữ liệu & Expander */
+div[data-testid="stDataFrame"] {
+    border: 1px solid var(--border-soft);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(20, 84, 63, 0.03);
+}
+details[data-testid="stExpander"] {
+    background: #ffffff;
+    border: 1px solid var(--border-soft);
+    border-radius: 14px;
+}
+
+/* Hộp thông báo (Alerts) */
+div[data-testid="stAlert"] {
+    border-radius: 14px;
+    border-width: 1px;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    padding: 1.2rem 1rem 0.5rem 1rem;
+    line-height: 1.6;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -106,7 +356,7 @@ def heading(title, subtitle):
     st.markdown(f'<div class="section">{title}</div><div class="sub">{subtitle}</div>',unsafe_allow_html=True)
 
 # Header và điều hướng
-st.markdown('<div class="hero"><span class="tag">DỰ ÁN STEM · NHÓM A</span><h1>🥗 Trợ lý dinh dưỡng học đường</h1><p>Từ dữ liệu khảo sát đến những lựa chọn dinh dưỡng tích cực mỗi ngày.</p></div>',unsafe_allow_html=True)
+st.markdown('<div class="hero"><span class="tag">🌿 DỰ ÁN STEM · NHÓM A</span><h1>🥗 Trợ lý dinh dưỡng học đường</h1><p>Từ dữ liệu khảo sát đến những lựa chọn dinh dưỡng tích cực mỗi ngày.</p></div>',unsafe_allow_html=True)
 with st.sidebar:
     st.markdown("## 🥗 NHÓM A")
     st.caption("DỮ LIỆU VÌ SỨC KHỎE HỌC ĐƯỜNG")
@@ -191,9 +441,11 @@ elif page=="Phân tích khảo sát":
                     st.markdown("**Tổng hợp theo nhóm**")
                     st.dataframe(counts,use_container_width=True,hide_index=True)
                 with right:
-                    fig=px.bar(counts,x="Nhóm",y="Số học sinh",color="Nhóm",title="Phân bố bản ghi theo nhóm thói quen",color_discrete_sequence=["#197653","#83c9a5"])
-                    fig.update_layout(plot_bgcolor="white",paper_bgcolor="white",font=dict(family="Arial",color="#30483b"),showlegend=False,margin=dict(l=10,r=10,t=55,b=10))
-                    fig.update_yaxes(gridcolor="#e8f0ea",title=None)
+                    fig=px.bar(counts,x="Nhóm",y="Số học sinh",color="Nhóm",title="Phân bố bản ghi theo nhóm thói quen",color_discrete_sequence=["#197653","#6ec499"])
+                    fig.update_traces(marker_cornerradius=8)
+                    fig.update_layout(plot_bgcolor="rgba(0,0,0,0)",paper_bgcolor="rgba(0,0,0,0)",font=dict(family="Be Vietnam Pro, Arial",color="#1b2e26"),showlegend=False,margin=dict(l=10,r=10,t=55,b=10))
+                    fig.update_yaxes(gridcolor="#e4efe8",title=None)
+                    fig.update_xaxes(title=None)
                     st.plotly_chart(fig,use_container_width=True)
                 veg_sum=valid.groupby("Nhóm thói quen",dropna=False)[COL_VEG].sum().reset_index(name="Tổng ngày ăn rau")
                 st.markdown("#### Tổng số ngày ăn rau theo nhóm")
@@ -215,7 +467,7 @@ elif page=="Kiến thức & an toàn":
     t1,t2,t3=st.tabs(["Công thức & quy ước","Vai trò của AI","An toàn dữ liệu"])
     with t1:
         st.markdown("#### Công thức minh họa")
-        st.code("BMI = cân nặng (kg) / (chiều cao (m) ** 2)\\nĐiểm rau = 1 nếu số ngày ăn rau >= 5; ngược lại = 0\\nĐiểm tiêu chí gộp = 1 nếu số lần <= 1; ngược lại = 0\\nTổng điểm = điểm rau + điểm tiêu chí gộp",language="python")
+        st.code("BMI = cân nặng (kg) / (chiều cao (m) ** 2)\nĐiểm rau = 1 nếu số ngày ăn rau >= 5; ngược lại = 0\nĐiểm tiêu chí gộp = 1 nếu số lần <= 1; ngược lại = 0\nTổng điểm = điểm rau + điểm tiêu chí gộp",language="python")
         st.info("Các ngưỡng 5 ngày và 1 lần là quy ước học tập, không phải tiêu chuẩn y tế.")
     with t2:
         st.write("AI hỗ trợ gợi ý giao diện, tạo bản nháp mã, giải thích câu lệnh và hỗ trợ tìm lỗi trong giai đoạn phát triển.")
