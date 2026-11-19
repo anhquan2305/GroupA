@@ -4,7 +4,7 @@ import plotly.express as px
 
 st.set_page_config(page_title="Trợ lý dinh dưỡng học đường", page_icon="🥗", layout="wide")
 
-# Nhận diện giao diện: xanh lá - xanh ngọc, ép CSS mạnh để dễ nhận biết ngay.
+# Nhận diện giao diện: xanh dương chủ đạo, nền trắng tinh gọn, ép CSS rõ rệt.
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
@@ -14,8 +14,8 @@ html, body, [class*="css"], [data-testid="stAppViewContainer"] {
 }
 
 .stApp, [data-testid="stAppViewContainer"] {
-    background: linear-gradient(180deg, #e7f5ee 0%, #f5faf7 38%, #edf6f1 100%) !important;
-    color: #172b23 !important;
+    background: #ffffff !important;
+    color: #0f2537 !important;
 }
 
 .block-container {
@@ -25,44 +25,42 @@ html, body, [class*="css"], [data-testid="stAppViewContainer"] {
 }
 
 section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #dff2e8 0%, #eef8f2 100%) !important;
-    border-right: 2px solid #c3e2d1 !important;
+    background: #f4f9ff !important;
+    border-right: 2px solid #dbeafe !important;
 }
 
 section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h2 {
-    color: #0f4c38 !important;
+    color: #0c4a6e !important;
     font-weight: 800 !important;
 }
 
-/* Làm nổi bật từng mục điều hướng trong sidebar */
 section[data-testid="stSidebar"] div[role="radiogroup"] {
     gap: 0.45rem !important;
 }
 section[data-testid="stSidebar"] div[role="radiogroup"] > label {
-    background: rgba(255, 255, 255, 0.72) !important;
-    border: 1px solid #cce5d7 !important;
+    background: #ffffff !important;
+    border: 1px solid #bfdbfe !important;
     border-radius: 12px !important;
     padding: 0.6rem 0.85rem !important;
     font-weight: 600 !important;
-    color: #17382b !important;
+    color: #0f2942 !important;
     transition: all 0.18s ease !important;
 }
 section[data-testid="stSidebar"] div[role="radiogroup"] > label:hover {
-    background: #ffffff !important;
-    border-color: #26996f !important;
+    background: #eff6ff !important;
+    border-color: #2563eb !important;
     transform: translateX(3px);
 }
 
 .hero {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(120deg, #0b3d2d 0%, #166b4c 55%, #289c72 100%) !important;
+    background: linear-gradient(120deg, #0b3b75 0%, #1d63b8 55%, #2b82e6 100%) !important;
     padding: 1.9rem 2.2rem !important;
-    border-radius: 24px !important;
+    border-radius: 22px !important;
     color: #ffffff !important;
     margin-bottom: 1.4rem !important;
-    border: 1px solid rgba(255, 255, 255, 0.25) !important;
-    box-shadow: 0 14px 32px rgba(15, 76, 56, 0.22) !important;
+    box-shadow: 0 12px 28px rgba(29, 99, 184, 0.2) !important;
 }
 .hero h1 {
     color: #ffffff !important;
@@ -71,7 +69,7 @@ section[data-testid="stSidebar"] div[role="radiogroup"] > label:hover {
     margin: 0.35rem 0 !important;
 }
 .hero p {
-    color: #e6f7ee !important;
+    color: #e0f2fe !important;
     margin: 0 !important;
     font-size: 1rem !important;
 }
@@ -89,48 +87,48 @@ section[data-testid="stSidebar"] div[role="radiogroup"] > label:hover {
     display: inline-block;
     margin-left: 0.45rem;
     padding: 0.32rem 0.72rem;
-    border: 1px solid rgba(183, 245, 214, 0.55);
-    background: rgba(11, 61, 45, 0.35);
+    border: 1px solid rgba(186, 230, 253, 0.6);
+    background: rgba(11, 59, 117, 0.35);
     border-radius: 999px;
     font-size: 0.74rem;
     font-weight: 700;
-    color: #d6faea;
+    color: #e0f2fe;
 }
 
 .section {
     font-size: 1.42rem !important;
     font-weight: 800 !important;
-    color: #0f4c38 !important;
+    color: #0c4a6e !important;
     margin: 0.4rem 0 0.15rem 0 !important;
 }
 .sub {
-    color: #54695e !important;
+    color: #52677a !important;
     margin-bottom: 1.15rem !important;
     font-size: 0.96rem !important;
 }
 
 .card {
     background: #ffffff !important;
-    border: 1px solid #d5e8dd !important;
-    border-top: 4px solid #23966c !important;
-    border-radius: 18px !important;
+    border: 1px solid #dbeafe !important;
+    border-top: 4px solid #2563eb !important;
+    border-radius: 16px !important;
     padding: 1.15rem 1.25rem !important;
     height: 100% !important;
-    box-shadow: 0 6px 18px rgba(15, 76, 56, 0.06) !important;
+    box-shadow: 0 4px 14px rgba(15, 37, 55, 0.05) !important;
     transition: transform 0.18s ease, box-shadow 0.18s ease !important;
 }
 .card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 24px rgba(15, 76, 56, 0.11) !important;
+    box-shadow: 0 10px 22px rgba(29, 99, 184, 0.12) !important;
 }
 .card h3 {
-    color: #0f4c38 !important;
+    color: #0c4a6e !important;
     font-size: 1.05rem !important;
     font-weight: 700 !important;
     margin: 0 0 0.45rem 0 !important;
 }
 .card p {
-    color: #4d6157 !important;
+    color: #475b6e !important;
     margin: 0 !important;
     font-size: 0.92rem !important;
     line-height: 1.5 !important;
@@ -138,56 +136,56 @@ section[data-testid="stSidebar"] div[role="radiogroup"] > label:hover {
 
 div[data-testid="stMetric"] {
     background: #ffffff !important;
-    border: 1px solid #d5e8dd !important;
-    border-left: 5px solid #197653 !important;
+    border: 1px solid #dbeafe !important;
+    border-left: 5px solid #1d63b8 !important;
     padding: 0.95rem 1.1rem !important;
-    border-radius: 16px !important;
-    box-shadow: 0 5px 15px rgba(15, 76, 56, 0.05) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 3px 12px rgba(15, 37, 55, 0.04) !important;
 }
 div[data-testid="stMetricValue"] {
-    color: #0f4c38 !important;
+    color: #0c4a6e !important;
     font-weight: 800 !important;
 }
 
 div[data-testid="stVerticalBlockBorderWrapper"] {
     background: #ffffff !important;
-    border: 1px solid #d5e8dd !important;
-    border-radius: 18px !important;
-    box-shadow: 0 5px 16px rgba(15, 76, 56, 0.05) !important;
+    border: 1px solid #dbeafe !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 14px rgba(15, 37, 55, 0.04) !important;
 }
 
 .stButton > button, .stDownloadButton > button {
-    border-radius: 12px !important;
+    border-radius: 11px !important;
     font-weight: 700 !important;
-    min-height: 2.75rem !important;
+    min-height: 2.7rem !important;
     transition: all 0.18s ease !important;
 }
 .stButton > button[kind="primary"] {
-    background: linear-gradient(135deg, #115740 0%, #22946a 100%) !important;
+    background: linear-gradient(135deg, #124e96 0%, #2563eb 100%) !important;
     color: #ffffff !important;
     border: none !important;
-    box-shadow: 0 6px 16px rgba(25, 118, 83, 0.24) !important;
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25) !important;
 }
 .stButton > button[kind="primary"]:hover {
     transform: translateY(-1px);
-    box-shadow: 0 9px 20px rgba(25, 118, 83, 0.32) !important;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.34) !important;
 }
 
 [data-testid="stFileUploader"] section {
-    background: #f2faf5 !important;
-    border: 2px dashed #8cc9a8 !important;
+    background: #f8fbff !important;
+    border: 2px dashed #93c5fd !important;
     border-radius: 14px !important;
 }
 
 div[data-testid="stDataFrame"] {
-    border: 1px solid #d5e8dd !important;
+    border: 1px solid #dbeafe !important;
     border-radius: 14px !important;
     overflow: hidden !important;
 }
 
 .footer {
     text-align: center;
-    color: #65786e;
+    color: #64748b;
     font-size: 0.84rem;
     padding: 1.1rem 1rem 0.4rem 1rem;
 }
@@ -271,7 +269,7 @@ def heading(title, subtitle):
     st.markdown(f'<div class="section">{title}</div><div class="sub">{subtitle}</div>',unsafe_allow_html=True)
 
 # Header và điều hướng
-st.markdown('<div class="hero"><span class="tag">DỰ ÁN STEM · NHÓM A</span><span class="tag-alt">UI v2 · EMERALD REFRESH</span><h1>🥗 Trợ lý dinh dưỡng học đường</h1><p>Từ dữ liệu khảo sát đến những lựa chọn dinh dưỡng tích cực mỗi ngày.</p></div>',unsafe_allow_html=True)
+st.markdown('<div class="hero"><span class="tag">DỰ ÁN STEM · NHÓM A</span><span class="tag-alt">BLUE & WHITE</span><h1>🥗 Trợ lý dinh dưỡng học đường</h1><p>Từ dữ liệu khảo sát đến những lựa chọn dinh dưỡng tích cực mỗi ngày.</p></div>',unsafe_allow_html=True)
 with st.sidebar:
     st.markdown("## 🥗 NHÓM A")
     st.caption("DỮ LIỆU VÌ SỨC KHỎE HỌC ĐƯỜNG")
@@ -356,9 +354,9 @@ elif page=="Phân tích khảo sát":
                     st.markdown("**Tổng hợp theo nhóm**")
                     st.dataframe(counts,use_container_width=True,hide_index=True)
                 with right:
-                    fig=px.bar(counts,x="Nhóm",y="Số học sinh",color="Nhóm",title="Phân bố bản ghi theo nhóm thói quen",color_discrete_sequence=["#197653","#83c9a5"])
-                    fig.update_layout(plot_bgcolor="white",paper_bgcolor="white",font=dict(family="Arial",color="#30483b"),showlegend=False,margin=dict(l=10,r=10,t=55,b=10))
-                    fig.update_yaxes(gridcolor="#e8f0ea",title=None)
+                    fig=px.bar(counts,x="Nhóm",y="Số học sinh",color="Nhóm",title="Phân bố bản ghi theo nhóm thói quen",color_discrete_sequence=["#1d63b8","#7db6f5"])
+                    fig.update_layout(plot_bgcolor="white",paper_bgcolor="white",font=dict(family="Be Vietnam Pro, Arial",color="#0f2537"),showlegend=False,margin=dict(l=10,r=10,t=55,b=10))
+                    fig.update_yaxes(gridcolor="#e2effc",title=None)
                     st.plotly_chart(fig,use_container_width=True)
                 veg_sum=valid.groupby("Nhóm thói quen",dropna=False)[COL_VEG].sum().reset_index(name="Tổng ngày ăn rau")
                 st.markdown("#### Tổng số ngày ăn rau theo nhóm")
