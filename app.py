@@ -4,7 +4,7 @@ import plotly.express as px
 
 st.set_page_config(page_title="Trợ lý dinh dưỡng học đường", page_icon="🥗", layout="wide")
 
-# Nhận diện giao diện: xanh dương chủ đạo, nền trắng tinh gọn, sidebar xanh lá đậm.
+# Nhận diện giao diện: nền chính màu xám vừa phải, xanh dương chủ đạo, sidebar xanh lá đậm.
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
@@ -14,7 +14,7 @@ html, body, [class*="css"], [data-testid="stAppViewContainer"] {
 }
 
 .stApp, [data-testid="stAppViewContainer"] {
-    background: #ffffff !important;
+    background: #e9eef3 !important;
     color: #0f2537 !important;
 }
 
@@ -109,24 +109,24 @@ section[data-testid="stSidebar"] div[role="radiogroup"] > label:hover {
     margin: 0.4rem 0 0.15rem 0 !important;
 }
 .sub {
-    color: #52677a !important;
+    color: #4b5d6e !important;
     margin-bottom: 1.15rem !important;
     font-size: 0.96rem !important;
 }
 
 .card {
     background: #ffffff !important;
-    border: 1px solid #dbeafe !important;
+    border: 1px solid #d2dce6 !important;
     border-top: 4px solid #2563eb !important;
     border-radius: 16px !important;
     padding: 1.15rem 1.25rem !important;
     height: 100% !important;
-    box-shadow: 0 4px 14px rgba(15, 37, 55, 0.05) !important;
+    box-shadow: 0 4px 14px rgba(15, 37, 55, 0.06) !important;
     transition: transform 0.18s ease, box-shadow 0.18s ease !important;
 }
 .card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 22px rgba(29, 99, 184, 0.12) !important;
+    box-shadow: 0 10px 22px rgba(29, 99, 184, 0.14) !important;
 }
 .card h3 {
     color: #0c4a6e !important;
@@ -143,11 +143,11 @@ section[data-testid="stSidebar"] div[role="radiogroup"] > label:hover {
 
 div[data-testid="stMetric"] {
     background: #ffffff !important;
-    border: 1px solid #dbeafe !important;
+    border: 1px solid #d2dce6 !important;
     border-left: 5px solid #1d63b8 !important;
     padding: 0.95rem 1.1rem !important;
     border-radius: 14px !important;
-    box-shadow: 0 3px 12px rgba(15, 37, 55, 0.04) !important;
+    box-shadow: 0 4px 12px rgba(15, 37, 55, 0.05) !important;
 }
 div[data-testid="stMetricValue"] {
     color: #0c4a6e !important;
@@ -156,9 +156,9 @@ div[data-testid="stMetricValue"] {
 
 div[data-testid="stVerticalBlockBorderWrapper"] {
     background: #ffffff !important;
-    border: 1px solid #dbeafe !important;
+    border: 1px solid #d2dce6 !important;
     border-radius: 16px !important;
-    box-shadow: 0 4px 14px rgba(15, 37, 55, 0.04) !important;
+    box-shadow: 0 4px 14px rgba(15, 37, 55, 0.05) !important;
 }
 
 .stButton > button, .stDownloadButton > button {
@@ -185,14 +185,14 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
 }
 
 div[data-testid="stDataFrame"] {
-    border: 1px solid #dbeafe !important;
+    border: 1px solid #d2dce6 !important;
     border-radius: 14px !important;
     overflow: hidden !important;
 }
 
 .footer {
     text-align: center;
-    color: #64748b;
+    color: #526373;
     font-size: 0.84rem;
     padding: 1.1rem 1rem 0.4rem 1rem;
 }
@@ -276,7 +276,7 @@ def heading(title, subtitle):
     st.markdown(f'<div class="section">{title}</div><div class="sub">{subtitle}</div>',unsafe_allow_html=True)
 
 # Header và điều hướng
-st.markdown('<div class="hero"><span class="tag">DỰ ÁN STEM · NHÓM A</span><span class="tag-alt">BLUE & WHITE</span><h1>🥗 Trợ lý dinh dưỡng học đường</h1><p>Từ dữ liệu khảo sát đến những lựa chọn dinh dưỡng tích cực mỗi ngày.</p></div>',unsafe_allow_html=True)
+st.markdown('<div class="hero"><span class="tag">DỰ ÁN STEM · NHÓM A</span><span class="tag-alt">GRAY & BLUE</span><h1>🥗 Trợ lý dinh dưỡng học đường</h1><p>Từ dữ liệu khảo sát đến những lựa chọn dinh dưỡng tích cực mỗi ngày.</p></div>',unsafe_allow_html=True)
 with st.sidebar:
     st.markdown("## 🥗 NHÓM A")
     st.caption("DỮ LIỆU VÌ SỨC KHỎE HỌC ĐƯỜNG")
