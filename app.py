@@ -344,4 +344,60 @@ elif page=="Phân tích khảo sát":
             st.success("Đã đọc tệp thành công. Hãy kiểm tra trạng thái dữ liệu trước khi diễn giải.")
             valid=result[result["Kiểm tra dữ liệu"]=="Hợp lệ"].copy()
             missing=int((result["Kiểm tra dữ liệu"]=="Thiếu dữ liệu").sum())
-            invalid=int((result["Kiểm tra
+            invalid=int((result["Kiểm tra dữ liệu"]=="Kiểm tra lại giá trị").sum())
+            empty=int((result["Kiểm tra dữ liệu"]=="Chưa nhập dữ liệu").sum())
+            st.markdown("#### Chất lượng dữ liệu")
+            m1,m2,m3,m4=st.columns(4)
+            m1.metric("Tổng bản ghi",len(result)); m2.metric("Hợp lệ",len(valid))
+            m3.metric("Thiếu dữ liệu",missing); m4.metric("Cần kiểm tra",invalid+empty)
+            with st.expander("Xem bảng dữ liệu đã xử lí"):
+                st.dataframe(result,use_container_width=True,hide_index=True)
+            if not valid.empty:
+                scored=valid[valid["Tổng điểm thói quen"].notna()].copy()
+                counts=scored["Nhóm thói quen"].value_counts().rename_axis("Nhóm").reset_index(name="Số học sinh")
+                st.markdown("#### Kết quả thống kê")
+                left,right=st.columns([1,1.5])
+                with left:
+                    st.markdown("**Tổng hợp theo nhóm**")
+                    st.dataframe(counts,use_container_width=True,hide_index=True)
+                with right:
+                    fig=px.bar(counts,x="Nhóm",y="Số học sinh",color="Nhóm",title="Phân bố bản ghi theo nhóm thói quen",color_discrete_sequence=["#1d63b8","#7db6f5"])
+                    fig.update_layout(plot_bgcolor="white",paper_bgcolor="white",font=dict(family="Be Vietnam Pro, Arial",color="#0f2537"),showlegend=False,margin=dict(l=10,r=10,t=55,b=10))
+                    fig.update_yaxes(gridcolor="#e2effc",title=None)
+                    st.plotly_chart(fig,use_container_width=True)
+                veg_sum=valid.groupby("Nhóm thói quen",dropna=False)[COL_VEG].sum().reset_index(name="Tổng ngày ăn rau")
+                st.markdown("#### Tổng số ngày ăn rau theo nhóm")
+                st.dataframe(veg_sum,use_container_width=True,hide_index=True)
+                with st.expander("Bảng chéo minh họa"):
+                    cross=pd.crosstab(scored["Nhóm thói quen"],scored["Nhóm BMI minh họa"],margins=False)
+                    st.dataframe(cross,use_container_width=True)
+                    st.caption("Chỉ mô tả phân bố cùng xuất hiện, không chứng minh quan hệ nhân quả.")
+            else: st.warning("Chưa có dòng dữ liệu hợp lệ để thống kê.")
+            st.download_button("⬇️ Tải kết quả đã xử lí (CSV)",make_csv_download(result),"ket_qua_nhom_A.csv","text/csv",use_container_width=True)
+        except Exception as exc:
+            st.error(f"Không thể xử lí tệp: {exc}")
+            st.caption("Kiểm tra tên sheet, hàng tiêu đề, tên cột và định dạng dữ liệu.")
+    else:
+        st.info("Chưa tải tệp. Hãy chọn bảng khảo sát Excel hoặc CSV mẫu của Nhóm A.")
+
+elif page=="Kiến thức & an toàn":
+    heading("Kiến thức & sử dụng có trách nhiệm","Hiểu công thức, giới hạn dữ liệu và vai trò AI trong quá trình phát triển.")
+    t1,t2,t3=st.tabs(["Công thức & quy ước","Vai trò của AI","An toàn dữ liệu"])
+    with t1:
+        st.markdown("#### Công thức minh họa")
+        st.code("BMI = cân nặng (kg) / (chiều cao (m) ** 2)\nĐiểm rau = 1 nếu số ngày ăn rau >= 5; ngược lại = 0\nĐiểm tiêu chí gộp = 1 nếu số lần <= 1; ngược lại = 0\nTổng điểm = điểm rau + điểm tiêu chí gộp",language="python")
+        st.info("Các ngưỡng 5 ngày và 1 lần là quy ước học tập, không phải tiêu chuẩn y tế.")
+    with t2:
+        st.write("AI hỗ trợ gợi ý giao diện, tạo bản nháp mã, giải thích câu lệnh và hỗ trợ tìm lỗi trong giai đoạn phát triển.")
+        st.success("Khi chạy, ứng dụng tính toán bằng Python theo quy tắc đã lập trình; không gọi API AI.")
+    with t3:
+        st.write("- Không dùng BMI hoặc điểm 0–2 để chẩn đoán, xếp loại hay gắn nhãn học sinh.")
+        st.write("- BMI trẻ em/vị thành niên cần diễn giải theo tuổi và giới bởi người có chuyên môn.")
+        st.write("- Không nhập họ tên, số điện thoại, địa chỉ hoặc dữ liệu nhận dạng cá nhân.")
+        st.write("- Chỉ dùng dữ liệu khảo sát khi đã được phép; lưu trữ và chia sẻ có trách nhiệm.")
+        st.write("- Dữ liệu mô phỏng phải được ghi rõ là dữ liệu mô phỏng.")
+        st.write("- Thống kê mô tả không chứng minh quan hệ nguyên nhân – kết quả.")
+        st.warning("Ứng dụng là sản phẩm học tập, không thay thế tư vấn y tế.")
+
+st.divider()
+st.markdown('<div class="footer">🥗 <b>Dữ liệu vì sức khỏe học đường</b> · Sản phẩm STEM học tập của Nhóm A<br>Dữ liệu trung thực · Xử lí đúng · Truyền thông có trách nhiệm</div>',unsafe_allow_html=True)
