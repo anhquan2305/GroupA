@@ -358,4 +358,3 @@ elif page=="Phân tích khảo sát":
                 with right:
                     fig=px.bar(counts,x="Nhóm",y="Số học sinh",color="Nhóm",title="Phân bố bản ghi theo nhóm thói quen",color_discrete_sequence=["#197653","#83c9a5"])
                     fig.update_layout(plot_bgcolor="white",paper_bgcolor="white",font=dict(family="Arial",color="#30483b"),showlegend=False,margin=dict(l=10,r=10
-                
