@@ -4,7 +4,7 @@ import plotly.express as px
 
 st.set_page_config(page_title="Trợ lý dinh dưỡng học đường", page_icon="🥗", layout="wide")
 
-# Nhận diện giao diện: xanh dương chủ đạo, nền trắng tinh gọn, ép CSS rõ rệt.
+# Nhận diện giao diện: xanh dương chủ đạo, nền trắng tinh gọn, sidebar xanh lá nhạt.
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
@@ -24,13 +24,14 @@ html, body, [class*="css"], [data-testid="stAppViewContainer"] {
     padding-bottom: 2.5rem !important;
 }
 
+/* Ngăn bên trái (Sidebar) nền xanh lá nhạt */
 section[data-testid="stSidebar"] {
-    background: #f4f9ff !important;
-    border-right: 2px solid #dbeafe !important;
+    background: linear-gradient(180deg, #e7f6ed 0%, #f1faf4 100%) !important;
+    border-right: 2px solid #cce8d6 !important;
 }
 
 section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h2 {
-    color: #0c4a6e !important;
+    color: #14543f !important;
     font-weight: 800 !important;
 }
 
@@ -39,16 +40,16 @@ section[data-testid="stSidebar"] div[role="radiogroup"] {
 }
 section[data-testid="stSidebar"] div[role="radiogroup"] > label {
     background: #ffffff !important;
-    border: 1px solid #bfdbfe !important;
+    border: 1px solid #c5e5d2 !important;
     border-radius: 12px !important;
     padding: 0.6rem 0.85rem !important;
     font-weight: 600 !important;
-    color: #0f2942 !important;
+    color: #153b2c !important;
     transition: all 0.18s ease !important;
 }
 section[data-testid="stSidebar"] div[role="radiogroup"] > label:hover {
-    background: #eff6ff !important;
-    border-color: #2563eb !important;
+    background: #f2fbf6 !important;
+    border-color: #26996f !important;
     transform: translateX(3px);
 }
 
