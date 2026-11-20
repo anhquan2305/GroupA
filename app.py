@@ -332,7 +332,7 @@ elif page=="Tính toán cá nhân":
         if total==2: st.success("Thông điệp: Tiếp tục duy trì lựa chọn ăn uống đa dạng và cân bằng.")
         st.caption("Không dùng kết quả để đánh giá hoặc so sánh cá nhân.")
 
-    # Mục 2: Phòng thí nghiệm giả lập thay đổi thói quen (What-if Slider)
+    # Phòng thí nghiệm giả lập thay đổi thói quen (What-if Slider)
     st.markdown("#### 🧪 Phòng thí nghiệm giả lập thay đổi thói quen")
     with st.container(border=True):
         st.caption("Kéo thanh trượt để thử thay đổi tần suất thói quen và quan sát điểm quy ước (0–2) biến đổi theo thời gian thực.")
@@ -347,6 +347,64 @@ elif page=="Tính toán cá nhân":
         sm2.metric("Điểm tiêu chí gộp giả lập",f"{sim_cp}/1",delta=f"Mốc ≤ {COMBINED_MAX_TIMES} lần")
         sm3.metric("Tổng điểm quy ước giả lập",f"{sim_total}/2",delta=sim_group)
         st.info("**Quy ước điểm vs. Sức khỏe thực tế:** Điểm 0–2 chỉ phản ánh mức khớp với hai ngưỡng quy ước thực hành dữ liệu của dự án, không phải chẩn đoán y khoa hay đánh giá tình trạng sức khỏe cá nhân.")
+
+    # Mục 3: Thẻ so sánh 2 kịch bản thói quen cạnh nhau (Scenario A vs. Scenario B)
+    if "scenario_a" not in st.session_state:
+        st.session_state["scenario_a"] = {"veg": int(veg), "combined": int(combined)}
+    if "scenario_b" not in st.session_state:
+        st.session_state["scenario_b"] = {"veg": 6, "combined": 1}
+
+    st.markdown("#### ⚖️ So sánh 2 kịch bản thói quen (Kịch bản A vs. Kịch bản B)")
+    with st.container(border=True):
+        st.caption("Lưu các mức từ thanh trượt giả lập phía trên vào Kịch bản A và Kịch bản B để đối chiếu trực tiếp.")
+        b1, b2 = st.columns(2)
+        with b1:
+            if st.button("📌 Lưu mức thanh trượt vào Kịch bản A (Hiện tại)", use_container_width=True):
+                st.session_state["scenario_a"] = {"veg": int(sim_veg), "combined": int(sim_combined)}
+        with b2:
+            if st.button("🎯 Lưu mức thanh trượt vào Kịch bản B (Điều chỉnh)", use_container_width=True):
+                st.session_state["scenario_b"] = {"veg": int(sim_veg), "combined": int(sim_combined)}
+
+        sc_a = st.session_state["scenario_a"]
+        sc_b = st.session_state["scenario_b"]
+        vp_a, cp_a, total_a, group_a = score_habit(sc_a["veg"], sc_a["combined"])
+        vp_b, cp_b, total_b, group_b = score_habit(sc_b["veg"], sc_b["combined"])
+        diff_total = total_b - total_a
+
+        col_a, col_b = st.columns(2)
+        with col_a:
+            st.markdown(f"""
+            <div class="card">
+                <h3>📌 Kịch bản A (Hiện tại)</h3>
+                <p>🥬 Ăn rau xanh/rau quả: <b>{sc_a['veg']} ngày/tuần</b> ({vp_a}/1 điểm)<br>
+                🥤 Thức ăn nhanh & đồ uống có đường: <b>{sc_a['combined']} lần/tuần</b> ({cp_a}/1 điểm)<br>
+                📊 Tổng điểm quy ước: <b>{total_a}/2</b> · <i>{group_a}</i></p>
+            </div>
+            """, unsafe_allow_html=True)
+        with col_b:
+            st.markdown(f"""
+            <div class="card">
+                <h3>🎯 Kịch bản B (Điều chỉnh)</h3>
+                <p>🥬 Ăn rau xanh/rau quả: <b>{sc_b['veg']} ngày/tuần</b> ({vp_b}/1 điểm)<br>
+                🥤 Thức ăn nhanh & đồ uống có đường: <b>{sc_b['combined']} lần/tuần</b> ({cp_b}/1 điểm)<br>
+                📊 Tổng điểm quy ước: <b>{total_b}/2</b> · <i>{group_b}</i></p>
+            </div>
+            """, unsafe_allow_html=True)
+
+        st.markdown("")
+        tips = []
+        if sc_b["veg"] < VEG_TARGET_DAYS:
+            tips.append(f"tăng thêm ít nhất {VEG_TARGET_DAYS - sc_b['veg']} ngày ăn rau/tuần để chạm mốc quy ước {VEG_TARGET_DAYS} ngày")
+        if sc_b["combined"] > COMBINED_MAX_TIMES:
+            tips.append(f"giảm bớt {sc_b['combined'] - COMBINED_MAX_TIMES} lần dùng thức ăn nhanh/đồ uống có đường để đạt mốc ≤ {COMBINED_MAX_TIMES} lần/tuần")
+
+        delta_text = f"+{diff_total}" if diff_total > 0 else str(diff_total)
+        summary_msg = f"**Đối chiếu Kịch bản B so với A:** Chênh lệch **{delta_text} điểm** quy ước ({total_a}/2 → {total_b}/2)."
+        if tips:
+            summary_msg += " Gợi ý điều chỉnh thêm ở Kịch bản B: " + "; ".join(tips) + "."
+        else:
+            summary_msg += " Kịch bản B đã đạt đủ cả 2 tiêu chí quy ước học tập của dự án."
+        st.info(summary_msg)
 
 elif page=="Phân tích khảo sát":
     heading("Phân tích dữ liệu khảo sát","Tải dữ liệu, kiểm tra chất lượng và khám phá kết quả.")
