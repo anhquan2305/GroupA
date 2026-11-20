@@ -330,7 +330,7 @@ elif page=="Tính toán cá nhân":
         if veg<VEG_TARGET_DAYS: st.info("Gợi ý: Có thể bổ sung rau xanh và rau quả đa dạng trong các bữa ăn.")
         if combined>COMBINED_MAX_TIMES: st.info("Gợi ý: Thử giảm tần suất thức ăn nhanh/đồ uống có đường; ưu tiên nước lọc.")
         if total==2: st.success("Thông điệp: Tiếp tục duy trì lựa chọn ăn uống đa dạng và cân bằng.")
-        st.caption("Không dùng kết quả để đánh giá hoặc so sánh cá nhân.")
+        st.caption("Không dùng kết quả để đánh giá hoặc so sánh cá nhân. Xem thêm bảng tham chiếu BMI Việt Nam ở mục Kiến thức & an toàn.")
 
     # Phòng thí nghiệm giả lập thay đổi thói quen (What-if Slider)
     st.markdown("#### 🧪 Phòng thí nghiệm giả lập thay đổi thói quen")
@@ -348,7 +348,7 @@ elif page=="Tính toán cá nhân":
         sm3.metric("Tổng điểm quy ước giả lập",f"{sim_total}/2",delta=sim_group)
         st.info("**Quy ước điểm vs. Sức khỏe thực tế:** Điểm 0–2 chỉ phản ánh mức khớp với hai ngưỡng quy ước thực hành dữ liệu của dự án, không phải chẩn đoán y khoa hay đánh giá tình trạng sức khỏe cá nhân.")
 
-    # Mục 3: Thẻ so sánh 2 kịch bản thói quen cạnh nhau (Scenario A vs. Scenario B)
+    # Thẻ so sánh 2 kịch bản thói quen cạnh nhau (Scenario A vs. Scenario B)
     if "scenario_a" not in st.session_state:
         st.session_state["scenario_a"] = {"veg": int(veg), "combined": int(combined)}
     if "scenario_b" not in st.session_state:
@@ -461,6 +461,21 @@ elif page=="Kiến thức & an toàn":
         st.markdown("#### Công thức minh họa")
         st.code("BMI = cân nặng (kg) / (chiều cao (m) ** 2)\nĐiểm rau = 1 nếu số ngày ăn rau >= 5; ngược lại = 0\nĐiểm tiêu chí gộp = 1 nếu số lần <= 1; ngược lại = 0\nTổng điểm = điểm rau + điểm tiêu chí gộp",language="python")
         st.info("Các ngưỡng 5 ngày và 1 lần là quy ước học tập, không phải tiêu chuẩn y tế.")
+
+        st.markdown("#### Tiêu chuẩn BMI tham khảo tại Việt Nam")
+        st.write("**1. Người trưởng thành (≥ 18 tuổi — tham chiếu ngưỡng châu Á - Thái Bình Dương / VN):**")
+        bmi_vn_df = pd.DataFrame({
+            "Phân loại": ["Thiếu cân / Gầy", "Bình thường", "Thừa cân", "Béo phì"],
+            "Ngưỡng BMI tham khảo tại VN": ["< 18.5", "18.5 – 22.9", "23.0 – 24.9", "≥ 25.0"],
+            "Ghi chú tham khảo": [
+                "Cần đánh giá thêm chế độ ăn và sức khỏe tổng quát",
+                "Khoảng tham chiếu phổ biến cho người trưởng thành",
+                "Thường được gọi là tiền béo phì trong tài liệu khu vực",
+                "Có thể chia mức độ theo hướng dẫn chuyên môn y tế"
+            ]
+        })
+        st.dataframe(bmi_vn_df, use_container_width=True, hide_index=True)
+        st.write("**2. Trẻ em và vị thành niên (< 18–19 tuổi, lứa tuổi học đường):** Không áp dụng ngưỡng cố định của người lớn; cần diễn giải theo **tuổi và giới** (như đường chuẩn tăng trưởng WHO theo tuổi/giới) bởi người có chuyên môn. Các mốc phân nhóm trong code chỉ dùng để minh họa xử lý dữ liệu.")
     with t2:
         st.write("AI hỗ trợ gợi ý giao diện, tạo bản nháp mã, giải thích câu lệnh và hỗ trợ tìm lỗi trong giai đoạn phát triển.")
         st.success("Khi chạy, ứng dụng tính toán bằng Python theo quy tắc đã lập trình; không gọi API AI.")
