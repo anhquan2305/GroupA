@@ -332,6 +332,22 @@ elif page=="Tính toán cá nhân":
         if total==2: st.success("Thông điệp: Tiếp tục duy trì lựa chọn ăn uống đa dạng và cân bằng.")
         st.caption("Không dùng kết quả để đánh giá hoặc so sánh cá nhân.")
 
+    # Mục 2: Phòng thí nghiệm giả lập thay đổi thói quen (What-if Slider)
+    st.markdown("#### 🧪 Phòng thí nghiệm giả lập thay đổi thói quen")
+    with st.container(border=True):
+        st.caption("Kéo thanh trượt để thử thay đổi tần suất thói quen và quan sát điểm quy ước (0–2) biến đổi theo thời gian thực.")
+        s1,s2=st.columns(2)
+        with s1:
+            sim_veg=st.slider("Giả lập số ngày ăn rau xanh, rau quả (ngày/tuần)",0,7,int(veg),1)
+        with s2:
+            sim_combined=st.slider("Giả lập số lần thức ăn nhanh & đồ uống có đường (lần/tuần)",0,10,min(int(combined),10),1)
+        sim_vp,sim_cp,sim_total,sim_group=score_habit(sim_veg,sim_combined)
+        sm1,sm2,sm3=st.columns(3)
+        sm1.metric("Điểm rau giả lập",f"{sim_vp}/1",delta=f"Mốc ≥ {VEG_TARGET_DAYS} ngày")
+        sm2.metric("Điểm tiêu chí gộp giả lập",f"{sim_cp}/1",delta=f"Mốc ≤ {COMBINED_MAX_TIMES} lần")
+        sm3.metric("Tổng điểm quy ước giả lập",f"{sim_total}/2",delta=sim_group)
+        st.info("**Quy ước điểm vs. Sức khỏe thực tế:** Điểm 0–2 chỉ phản ánh mức khớp với hai ngưỡng quy ước thực hành dữ liệu của dự án, không phải chẩn đoán y khoa hay đánh giá tình trạng sức khỏe cá nhân.")
+
 elif page=="Phân tích khảo sát":
     heading("Phân tích dữ liệu khảo sát","Tải dữ liệu, kiểm tra chất lượng và khám phá kết quả.")
     with st.container(border=True):
