@@ -275,6 +275,11 @@ def read_uploaded_file(uploaded_file):
 def heading(title, subtitle):
     st.markdown(f'<div class="section">{title}</div><div class="sub">{subtitle}</div>',unsafe_allow_html=True)
 
+def user_guide(steps):
+    with st.expander("📖 Hướng dẫn sử dụng trang này"):
+        for idx, step in enumerate(steps, start=1):
+            st.markdown(f"{idx}. {step}")
+
 # Header và điều hướng
 st.markdown('<div class="hero"><span class="tag">DỰ ÁN STEM · NHÓM A</span><span class="tag-alt">GRAY & BLUE</span><h1>🥗 Trợ lý dinh dưỡng học đường</h1><p>Từ dữ liệu khảo sát đến những lựa chọn dinh dưỡng tích cực mỗi ngày.</p></div>',unsafe_allow_html=True)
 with st.sidebar:
@@ -287,6 +292,11 @@ with st.sidebar:
 
 if page=="Tổng quan":
     heading("Khám phá ứng dụng","Công cụ học tập giúp biến dữ liệu khảo sát thành thông tin dễ hiểu.")
+    user_guide([
+        "Nắm nhanh mục tiêu học tập của dự án qua 3 thẻ chức năng và hai tiêu chí quy ước.",
+        "Dùng thanh **ĐIỀU HƯỚNG** ở ngăn bên trái để chuyển sang **Tính toán cá nhân** (nhập thử số liệu) hoặc **Phân tích khảo sát** (xử lý bảng dữ liệu).",
+        "Đọc kỹ lưu ý rằng tổng điểm 0–2 chỉ là quy ước thực hành dữ liệu của dự án, không phải thang đo sức khỏe."
+    ])
     a,b,c=st.columns(3)
     for col,icon,title,desc in [
         (a,"🧾","Nhập dữ liệu","Nhập thử thông tin cá nhân hoặc tải bảng khảo sát Excel/CSV."),
@@ -302,6 +312,11 @@ if page=="Tổng quan":
 
 elif page=="Tính toán cá nhân":
     heading("Tính toán cá nhân","Thực hành công thức và quy tắc tính điểm của dự án.")
+    user_guide([
+        "Nhập chiều cao, cân nặng và tần suất thói quen ăn uống rồi bấm **✨ Tính kết quả** để xem BMI tham khảo và điểm quy ước 0–2.",
+        "Kéo thanh trượt ở **Phòng thí nghiệm giả lập thay đổi thói quen** để xem điểm biến đổi trực tiếp khi thay đổi thói quen.",
+        "Bấm lưu **Kịch bản A** và **Kịch bản B** để đặt hai phương án thói quen cạnh nhau và so sánh mức chênh lệch điểm."
+    ])
     st.warning("BMI ở trẻ em và vị thành niên cần được diễn giải theo tuổi và giới bởi người có chuyên môn. Kết quả chỉ phục vụ học tập.")
     with st.container(border=True):
         with st.form("personal_form"):
@@ -408,6 +423,11 @@ elif page=="Tính toán cá nhân":
 
 elif page=="Phân tích khảo sát":
     heading("Phân tích dữ liệu khảo sát","Tải dữ liệu, kiểm tra chất lượng và khám phá kết quả.")
+    user_guide([
+        "Chuẩn bị tệp `.csv` (hàng 1 là tên cột) hoặc `.xlsx`/`.xls` (sheet `Du_lieu_khao_sat`, tiêu đề ở dòng 4) có đủ 5 cột bắt buộc: `Mã HS`, `Chiều cao (cm)`, `Cân nặng (kg)`, `Số ngày ăn rau xanh, rau quả (ngày/tuần)`, `Số lần sử dụng thức ăn nhanh và đồ uống có đường (lần/tuần)`.",
+        "Tải tệp lên để kiểm tra chất lượng dữ liệu, mở **Xem bảng dữ liệu đã xử lí** nếu muốn rà soát từng dòng, và xem biểu đồ/bảng tổng hợp trên các bản ghi hợp lệ.",
+        "Bấm **⬇️ Tải kết quả đã xử lí (CSV)** để lưu bảng dữ liệu đã kiểm tra và tính điểm về máy."
+    ])
     with st.container(border=True):
         st.markdown("#### 📂 Tải dữ liệu khảo sát")
         st.caption("Excel: đọc sheet Du_lieu_khao_sat, tiêu đề ở dòng 4. CSV: hàng đầu tiên là tên cột.")
@@ -456,6 +476,11 @@ elif page=="Phân tích khảo sát":
 
 elif page=="Kiến thức & an toàn":
     heading("Kiến thức & sử dụng có trách nhiệm","Hiểu công thức, giới hạn dữ liệu và vai trò AI trong quá trình phát triển.")
+    user_guide([
+        "Chọn lần lượt 3 thẻ **Công thức & quy ước**, **Vai trò của AI** và **An toàn dữ liệu** để xem cách tính toán và nguyên tắc sử dụng dữ liệu.",
+        "Đối chiếu bảng tham chiếu BMI Việt Nam và lưu ý riêng cho lứa tuổi học đường khi trình bày báo cáo STEM.",
+        "Tuân thủ quy tắc không thu thập thông tin định danh cá nhân và không dùng điểm quy ước để gắn nhãn học sinh."
+    ])
     t1,t2,t3=st.tabs(["Công thức & quy ước","Vai trò của AI","An toàn dữ liệu"])
     with t1:
         st.markdown("#### Công thức minh họa")
